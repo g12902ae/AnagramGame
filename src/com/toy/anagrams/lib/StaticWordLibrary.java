@@ -31,6 +31,8 @@
 
 package com.toy.anagrams.lib;
 
+import java.util.Random;
+
 /**
  * Implementation of the logic for the Anagram Game application.
  */
@@ -153,9 +155,38 @@ final class StaticWordLibrary extends WordLibrary {
      * @param idx index of required word
      * @return word at that index in its scrambled form
      */
-    public String getScrambledWord(int idx) {
-        return SCRAMBLED_WORD_LIST[idx];
-    }
+    public String getScrambledWord(int idx, int count) {
+        //return SCRAMBLED_WORD_LIST[idx];
+        String word = WORD_LIST[idx];
+        char[] shuffle = new char[word.length()];
+        
+        for(int i=0; i<count; i++){
+        Random rand = new Random();
+        int ran2=0;
+        int ran=rand.nextInt(word.length()-1);
+        boolean flag=true;
+        
+        while(flag){
+            ran2=rand.nextInt(word.length()-1);
+            if(ran==ran2 || String.valueOf(shuffle[ran]).equals(String.valueOf(shuffle[ran2]))){
+            flag=true;
+            }else{
+            flag=false;
+               }
+            }   
+    
+
+        char v = shuffle[ran];
+        shuffle[ran]=shuffle[ran2];
+        shuffle[ran2]=v;
+        }
+        String answer="";
+        for(int i=0; i<word.length();i++){
+        answer = answer + String.valueOf(shuffle[i]);
+        }
+        return answer;
+        }
+    
 
     /**
      * Gets the number of words in the library.
@@ -173,6 +204,11 @@ final class StaticWordLibrary extends WordLibrary {
      */
     public boolean isCorrect(int idx, String userGuess) {
         return userGuess.equals(getWord(idx));
+    }
+
+    @Override
+    public String getScrambledWord(int idx) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
